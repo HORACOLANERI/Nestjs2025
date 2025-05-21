@@ -1,7 +1,9 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
+  Post,
 } from '@nestjs/common';
 import { Item } from 'src/model/Item';
 import { BuscadorService } from 'src/service/buscador.service';
@@ -15,7 +17,7 @@ export class BuscadorController {
     return this.buscadorService.buscar(tematica);
   }
   @Post("alta")
-  alta @Body() item: Item): void {
+  alta (@Body() item: Item): void {
     this.buscadorService.alta(item);
   }
 }
