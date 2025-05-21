@@ -5,22 +5,36 @@ import {
   Get,
   Param,
   Post,
+  Res,
 } from '@nestjs/common';
 import { Cuenta } from 'src/model/Cuenta';
 import { CuentasService } from 'src/service/cuentas.service';
+import { Response } from 'express'; 
 
 
 @Controller('cuentas')
 export class CuentasController {
  constructor(private readonly cuentasService: CuentasService) {}
   @Post('alta')
-  guardar(@Body() cuenta:Cuenta):void{
-    this.cuentasService.save(cuenta);
+  guardar(@Body() cuenta:Cuenta, @Res()response:Response):void{
+    const resultado:boolean=this.cuentasService.save(cuenta);
+    if(resultado){
+      //devolvemos código 200
+      response.status(200).send();
+    }else{
+      //devolvemos código 409
+      response.status(409).send();
+    }
   }
 
   @Get('buscarnum/:num')
-  buscarPorNumero(@Param("num") numeroCuenta:string):Cuenta{
-    return this.cuentasService.findByNumeroCuenta(numeroCuenta);
+  buscarPorNumero(@Param("num") numeroCuenta:string, @Res() response:Response):any{
+    const cuenta:Cuenta=this.cuentasService.findByNumeroCuenta(numeroCuenta);
+    if(cuenta){
+      return response.status(200).json(cuenta);
+    }else{
+      return response.status(419).json(new Cuenta());
+    }
   }
 
   @Get('buscarsaldo/:saldo')
@@ -37,8 +51,6 @@ export class CuentasController {
   eliminarPorNumero(@Param("num") numeroCuenta:string):void{
     this.cuentasService.deleteByNumeroCuenta(numeroCuenta);
   } 
-
-
 }
 
 
