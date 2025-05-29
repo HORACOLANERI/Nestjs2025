@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Movimiento } from './model/Movimiento';
 import { Cuenta } from './model/Cuenta';
 import { Cliente } from './model/Cliente';
+import { CuentasController } from './controller/cuentas.controller';
+import { CuentasService } from './service/cuentas.service';
 
 
 @Module({
@@ -18,7 +20,7 @@ import { Cliente } from './model/Cliente';
     entities: [Movimiento, Cuenta, Cliente],
     synchronize: false,
   }), TypeOrmModule.forFeature([Movimiento, Cuenta, Cliente])],
-  controllers: [MovimientosController],
-  providers: [MovimientosService],
+  controllers: [MovimientosController, CuentasController],
+  providers: [MovimientosService, CuentasService],
 })
 export class AppModule {}

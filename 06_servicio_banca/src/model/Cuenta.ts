@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from "typeorm";
 import { Movimiento } from "./Movimiento";
 import { Cliente } from "./Cliente";
 
