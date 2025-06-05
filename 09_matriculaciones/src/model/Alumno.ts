@@ -1,3 +1,6 @@
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Matricula } from "./Matricula";
+
 @Entity('alumnos') // Nombre de la tabla en la base de datos
 export class Alumno {
 

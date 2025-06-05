@@ -1,9 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { Alumno } from "./Alumno";
 import { Curso } from "./Curso";
 
 @Entity("matriculas")
 export class Matricula{
+    @PrimaryColumn()
+    idCurso:number;
+    @PrimaryColumn()
+    usuario:string;
     @ManyToOne(()=>Alumno,a=>a.matriculas)
     @JoinColumn({name:"usuario",referencedColumnName:"usuario"})
     alumno:Alumno;
@@ -18,5 +22,10 @@ export class Matricula{
         this.curso=curso;
         this.nota=nota;
         this.alumno=alumno;
+        if(curso){
+            this.idCurso=curso.idCurso;
+        }if(alumno){    
+            this.usuario=alumno.usuario;
+        }
     }
 }
