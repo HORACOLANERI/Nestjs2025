@@ -6,18 +6,15 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClientesService {
-  constructor(@InjectRepository(Cuenta) private readonly cuentasRepository:Repository<Cuenta>){
+  constructor(@InjectRepository(Cliente) private readonly clientesRepository:Repository<Cliente>){
     
   }
 
   async findByNumeroCuenta(numeroCuenta:number):Promise<Cliente[]>{
-    const cuenta:Cuenta=await this.cuentasRepository.findOne({
-      where:{
-        numeroCuenta:numeroCuenta
-      },
-      relations:["clientes"],
-    });
-    return cuenta.clientes;
+    return this.clientesRepository.createQueryBuilder("cliente")
+      .innerJoin("cliente.cuentas","c")
+      .where("c.numeroCuenta=:numCuenta",{numCuenta:numeroCuenta})
+      .getMany();
   }
   
 
